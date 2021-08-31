@@ -12,7 +12,6 @@ import ARKit
 class ViewController: UIViewController, ARSCNViewDelegate {
     let configuration = ARWorldTrackingConfiguration()
     @IBOutlet var sceneView: ARSCNView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         sceneView.delegate = self
@@ -38,6 +37,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.scene.rootNode.addChildNode(sun)
         sceneView.scene.rootNode.addChildNode(earthParent)
         sceneView.scene.rootNode.addChildNode(venusParent)
+        sceneView.scene.rootNode.addChildNode(moonParent)
         
         let earth = planet(geometry: SCNSphere(radius: 0.2),
                            diffuse: UIImage(named: "Earth")!,
@@ -52,11 +52,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                            normal: nil,
                            position: SCNVector3(0.7,0,0))
         let moonEarth = planet(geometry: SCNSphere(radius: 0.05),
-                          diffuse: UIImage(named: "Moon")!,
-                          specular: nil,
-                          emission: nil,
-                          normal: nil,
-                          position: SCNVector3(0,0,-0.3))
+                               diffuse: UIImage(named: "Moon")!,
+                               specular: nil,
+                               emission: nil,
+                               normal: nil,
+                               position: SCNVector3(0,0,-0.3))
         
         
         sun.runAction(rotation(time: 8))
@@ -70,7 +70,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         earthParent.addChildNode(moonParent)
         venusParent.addChildNode(venus)
         moonParent.addChildNode(moonEarth)
-        earth.addChildNode(moonEarth)
         
     }
     func planet(geometry: SCNGeometry, diffuse: UIImage?, specular: UIImage?, emission: UIImage?, normal: UIImage?, position: SCNVector3) -> SCNNode {
@@ -87,7 +86,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let foreverRotation = SCNAction.repeatForever(rotation)
         return foreverRotation
     }
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         sceneView.session.pause()
